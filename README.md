@@ -18,3 +18,7 @@ Skypie
 We need to install ```apachew```, ```wget```, ```php```, ```unzip```, ```libapache2-mod-php7.0```. Then we download all files required by using ```wget``` command and edit ```nano /root/franky.iup3.com.conf```.
 
 ![prak2 no8](https://user-images.githubusercontent.com/74300479/139356118-c217ac1f-d3d7-430c-9a9d-b8ab72fec7d5.jpg)
+
+Then we check at the loguetown ```lynx franky.iup3.com```.
+
+![prak2 no8a](https://user-images.githubusercontent.com/74300479/139356331-e2e6320d-51f8-4534-8e66-6789352ffd8a.jpg)
