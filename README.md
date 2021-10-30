@@ -48,6 +48,10 @@ in loguetown, use the command ```echo nameserver 192.168.122.1 > /etc/resolv.con
 
 then we ping the franky and check the host with  ```ping franky.iup3.com``` ```host -t CNAME www.franky.iup3.com```
 
+![image](https://user-images.githubusercontent.com/64368640/139527306-a1e98d36-87ce-469c-b2ca-ee141f3f6635.png)
+![image](https://user-images.githubusercontent.com/64368640/139527317-56e72edb-0eac-4e82-b365-0d981b3bf7f8.png)
+
+
 ### 3. After that create a subdomain super.franky.yyy.com with the alias www.super.franky.yyy.com whose DNS is set at EniesLobby and points to Skypie
 
 In eniesloby edit the franky.iup3.com with ```nano /etc/bind/kaizoku/franky.iup3.com``` and add
@@ -58,7 +62,11 @@ In eniesloby edit the franky.iup3.com with ```nano /etc/bind/kaizoku/franky.iup3
  then restart using ```service bind9 restart```
  
  In loguetown, we ping and check using ```ping super.franky.iup3.com``` and ```host -t A super.franky.iup3.com```
- 
+
+![image](https://user-images.githubusercontent.com/64368640/139527350-5a146381-be3f-4498-8ae1-38bb00385a99.png)
+![image](https://user-images.githubusercontent.com/64368640/139527367-aeb41615-e5e5-4900-92d1-a54d2145b146.png)
+
+
 ### 4. Also create a reverse domain for the main domain
 
 in eniesloby we edit the conf local using ```nano /etc/bind/named.conf.local``` then add
@@ -91,6 +99,8 @@ in loguetown edit the resolv conft using ```nano /etc/resolv.conf``` and add the
 
 check using ```host -t PTR 10.39.2.2```
 
+![image](https://user-images.githubusercontent.com/64368640/139527383-f0b8db31-7089-429a-b751-634ff829e9f9.png)
+
 
 ### 5. In order to still be able to contact Franky if the Enies Lobby server is damaged, then make Water7 the DNS Slave for the main domain
 
@@ -117,11 +127,17 @@ edit the conf local using ```nano /etc/bind/named.conf.local``` and add
 
 then restart using  ```service bind9 restart```
 
+
 in enies lobby , we stop using ```service bind9 stop```
+
+![image](https://user-images.githubusercontent.com/64368640/139527423-49518b1b-aa75-4a38-b082-1f5678a61d66.png)
 
 in loguetown we edit the resolv conft using ```nano /etc/resolv.conf``` and add ```nameserver 10.39.2.2 nameserver 10.39.2.3```
 
 then ping franky using ```ping franky.iup3.com```
+
+![image](https://user-images.githubusercontent.com/64368640/139527604-3c8ffd92-8330-4a2f-b5d0-a2d3ace16e18.png)
+
 
 ###  6. After that there is a subdomain mecha.franky.yyy.com with the alias www.mecha.franky.yyy.com which was delegated from EniesLobby to Water7 with the IP going to Skypie in the sunnygo folder
 
@@ -144,6 +160,9 @@ edit the conf local using ```nano /etc/bind/named.conf.local```
 make the directory sunnygo using ```mkdir /etc/bind/sunnygo```
 
 copy the db.local into sunnygo mecha using ```cp /etc/bind/db.local /etc/bind/sunnygo/mecha.franky.iup3.com```
+
+![image](https://user-images.githubusercontent.com/64368640/139527586-8e514c36-589c-4897-96eb-b73d77423a11.png)
+
 
 ###  7. To facilitate communication between Luffy and his colleagues, a subdomain was created through Water7 with the name general.mecha.franky.yyy.com with the alias www.general.mecha.franky.yyy.com which points to Skypie
 
@@ -180,6 +199,9 @@ then copy into the directory
 
 concatenate the conf options ```cat named.conf.options > /etc/bind/named.conf.options```
 then restart using ```service bind9 restart```
+
+![image](https://user-images.githubusercontent.com/64368640/139527663-f59c4232-f392-4182-8bc2-03a7cb217084.png)
+
 
 ### 8. After configuring the server, then the Webserver configuration is done. First with the webserver www.franky.yyy.com. First, luffy needs a webserver with DocumentRoot on /var/www/franky.yyy.com.
 
@@ -225,7 +247,7 @@ Edit ```lynx www.super.franky.iup3.com/js```. Then it will show the index of js.
 ![prak2 no13](https://user-images.githubusercontent.com/74300479/139359626-bff58826-ba8c-43de-adef-b7361c1e8ce2.jpg)
 
 
-### no. 14 Luffy requested so that www.general.mecha.franky.yyy.com can only be accessed by using port 15000 and port 15500.
+### 14. Luffy requested so that www.general.mecha.franky.yyy.com can only be accessed by using port 15000 and port 15500.
 
 we first go to the `/etc/apache2/sites-available` directory, create a new file from copy of `000-default.conf` into `general.mecha.franky.iup3.com.conf`
 
@@ -243,8 +265,11 @@ we also create a new directory named `general.mecha.franky.iup3.com` on `/var/ww
 
 finally, we run the command `a2ensite general.mecha.franky.iup3.com` and also `service apache2 restart`
 
+![image](https://user-images.githubusercontent.com/64368640/139527140-a8fd9bd6-c89c-4dc6-8744-9cc0c6f3a994.png)
+![image](https://user-images.githubusercontent.com/64368640/139527067-800ef211-bf36-4c89-bcb2-5b6a2e7afbcd.png)
 
-### no. 15 using authentication username luffy and password onepiece from file in /var/www/general.mecha.franky.yyy
+
+### 15. using authentication username luffy and password onepiece from file in /var/www/general.mecha.franky.yyy
 
 
 We first run command `htpasswd -c /etc/apache2/.htpasswd luffy` which will save the username and password into the file `/etc/apache2/.htpasswd` that will save username `luffy`, and there will be a prompt to input the password.
@@ -267,6 +292,9 @@ we also edit the file `/var/www/general.mecha.franky.iup3.com/.htaccess` into:
     Require valid-user
 ```
 
+![image](https://user-images.githubusercontent.com/64368640/139526899-afa4f4a7-2b1e-4fc8-b66b-22d9772db2d9.png)
+![image](https://user-images.githubusercontent.com/64368640/139527004-f9276633-b072-4beb-8a4b-75714fb44b83.png)
+
 
 ### no. 16 Everytime we access EniesLobby IP, we will be redirected into www.franky.yyy.com
 
@@ -275,7 +303,7 @@ We edit the file `/var/www/html/.htaccess` by adding:
 ```bash
     RewriteEngine On
     RewriteBase /
-    RewriteCond %{HTTP_HOST} ^192\.194\.2\.4$
+    RewriteCond %{HTTP_HOST} ^10\.39\.2\.4$
     RewriteRule ^(.*)$ http://www.franky.iup3.com [L,R=301]
 ```
 
@@ -287,6 +315,9 @@ We also edit the file `/etc/apache2/sites-available/000-default.conf` by adding:
         AllowOverride All
     </Directory>
 ```
+
+![image](https://user-images.githubusercontent.com/64368640/139527221-7e8bb7f4-abed-41b6-aef0-4eb7f31cdf45.png)
+![image](https://user-images.githubusercontent.com/64368640/139527215-4f9d0f53-e087-4ea8-b2ea-ab5b1b51ad63.png)
 
 
 ### no. 17 Because Franky also wants to invite his friends to be able to contact him through the website www.super.franky.yyy.com, and because web server visitors will definitely be confused by the random images that exist, Franky also request to replace the image request that has the substring "franky" will redirected to franky.png.
@@ -307,6 +338,9 @@ We also edit `/var/www/super.franky.iup3.com/.htaccess` by adding:
     RewriteRule ^(.*)franky(.*)\.(jpg|gif|png)$ http://super.franky.iup3.com/public/images/franky.png [L,R]
 ```
 
+Problem: There seems to be a problem with the rewrite rule so when we tested it still not workin
+![image](https://user-images.githubusercontent.com/64368640/139527273-2f710729-d53b-4a13-90da-3f7449dc82ae.png)
+![image](https://user-images.githubusercontent.com/64368640/139527266-338ba57a-8b98-44f7-aab2-4a2586edaf53.png)
 
 
 
