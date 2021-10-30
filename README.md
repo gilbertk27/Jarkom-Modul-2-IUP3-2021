@@ -217,12 +217,95 @@ Edit ```lynx www.super.franky.iup3.com/asd```. It will show the error.
 
 ![prak2 no12](https://user-images.githubusercontent.com/74300479/139359031-1950b7a1-6203-4e67-a0a8-6fcbcdb5d6d9.jpg)
 
+
 ### 13. Luffy also asked Nami to make a virtual host configuration. This virtual host aims to be able to access the asset file www.super.franky.yyy.com/public/js to www.super.franky.yyy.com/js.
 
 Edit ```lynx www.super.franky.iup3.com/js```. Then it will show the index of js.
 
 ![prak2 no13](https://user-images.githubusercontent.com/74300479/139359626-bff58826-ba8c-43de-adef-b7361c1e8ce2.jpg)
 
+
+### no. 14 Luffy requested so that www.general.mecha.franky.yyy.com can only be accessed by using port 15000 and port 15500.
+
+we first go to the `/etc/apache2/sites-available` directory, create a new file from copy of `000-default.conf` into `general.mecha.franky.iup3.com.conf`
+
+We then change the setting on `general.mecha.franky.iup3.com.conf` into `<VirtualHost *:15000 *:15500>`, add or change lines to `ServerName general.mecha.franky.iup3.com`, `ServerAlias www.general.mecha.franky.iup3.com`, and `DocumentRoot /var/www/general.mecha.franky.iup3.com`.
+
+
+on `/etc/apache2/ports.conf`, we also add additional port information by putting:
+
+```bash
+    Listen 15000
+    Listen 15500
+```
+
+we also create a new directory named `general.mecha.franky.iup3.com` on `/var/www/`. We then extract the zip file of `general.mecha.franky` downloaded previously into the new folder `/var/www/general.mecha.franky.iup3.com`.
+
+finally, we run the command `a2ensite general.mecha.franky.iup3.com` and also `service apache2 restart`
+
+
+### no. 15 using authentication username luffy and password onepiece from file in /var/www/general.mecha.franky.yyy
+
+
+We first run command `htpasswd -c /etc/apache2/.htpasswd luffy` which will save the username and password into the file `/etc/apache2/.htpasswd` that will save username `luffy`, and there will be a prompt to input the password.
+
+We can then edit the file `/etc/apache2/sites-available/general.mecha.franky.iup3.com.conf` by adding:
+
+```bash
+    <Directory /var/www/general.mecha.franky.iup3.com>
+        Options +FollowSymLinks -Multiviews
+        AllowOverride All
+    </Directory>
+```
+
+we also edit the file `/var/www/general.mecha.franky.iup3.com/.htaccess` into:
+
+```bash
+    AuthType Basic
+    AuthName "Restricted Content"
+    AuthUserFile /etc/apache2/.htpasswd
+    Require valid-user
+```
+
+
+### no. 16 Everytime we access EniesLobby IP, we will be redirected into www.franky.yyy.com
+
+We edit the file `/var/www/html/.htaccess` by adding:
+
+```bash
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{HTTP_HOST} ^192\.194\.2\.4$
+    RewriteRule ^(.*)$ http://www.franky.iup3.com [L,R=301]
+```
+
+We also edit the file `/etc/apache2/sites-available/000-default.conf` by adding:
+
+```bash
+    <Directory /var/www/html>
+        Options +FollowSymLinks -Multiviews
+        AllowOverride All
+    </Directory>
+```
+
+
+### no. 17 Because Franky also wants to invite his friends to be able to contact him through the website www.super.franky.yyy.com, and because web server visitors will definitely be confused by the random images that exist, Franky also request to replace the image request that has the substring "franky" will redirected to franky.png.
+
+First, we edit file `/etc/apache2/sites-available/super.franky.iup3.com.conf` by adding:
+
+```bash
+    <Directory /var/www/super.franky.iup3.com>
+        Options +FollowSymLinks -Multiviews
+        AllowOverride All
+    </Directory>
+```
+
+We also edit `/var/www/super.franky.iup3.com/.htaccess` by adding:
+
+```bash
+    RewriteEngine On
+    RewriteRule ^(.*)franky(.*)\.(jpg|gif|png)$ http://super.franky.iup3.com/public/images/franky.png [L,R]
+```
 
 
 
