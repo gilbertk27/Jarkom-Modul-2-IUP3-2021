@@ -11,6 +11,75 @@ Drigo Alexander Sihombing (05111942000020)
 
 Gilbert KurniawanH. (05111942000025)
 
+### 1. Luffy is the one who will become the Pirate King. In order to make Luffy the Pirate King, Nami wants to make a map, help Nami to make the following map:
+ <img width="460" alt="Screen Shot 2021-10-30 at 16 51 45" src="https://user-images.githubusercontent.com/73428164/139528308-b087b481-cfdc-4519-8d30-a30ea4b2f34b.png">
+
+### EniesLobby will be used as DNS Master, Water7 will be used as DNS Slave, and Skypie will be used as Web Server. There are 2 clients, namely Loguetown and Alabasta. All nodes are connected to the Foosha router, so they can access the internet
+
+Add some node ethernet switch and ubuntu, and make the relation between the node and the name that looks like picture above.
+
+and then we setting the network for each node with ```Edit network configuration``` become like this
+
+* In Foosha
+
+			auto eth0
+			iface eth0 inet dhcp
+			
+			auto eth1
+			iface eth1 inet static
+				addres 10.39.1.1
+				netmask 255.255.255.0
+			
+			auto eth2
+			iface eth2 inet static
+				address 10.39.2.1
+				netmask 255.255.255.0
+				
+* In Loguetown
+
+			auto eth0
+			iface eth0 inet static
+			address 10.39.1.2
+			netmask 255.255.255.0
+			gateway 10.39.1.1
+			
+* In Alabasta
+
+			auto eth0
+			iface eth0 inet static
+			address 10.39.1.3
+			netmask 255.255.255.0
+			gateway 10.39.1.1
+
+* In EniesLobby
+
+			auto eth0
+			iface eth0 inet static
+			address 10.39.2.2
+			netmask 255.255.255.0
+			gateway 10.39.2.1
+* In Water7
+
+			auto eth0
+			iface eth0 inet static
+			address 10.39.2.3
+			netmask 255.255.255.0
+			gateway 10.39.2.1
+* In Skypie
+
+			auto eth0
+			iface eth0 inet static
+			address 10.39.2.4
+			netmask 255.255.255.0
+			gateway 10.39.2.1		
+			
+and then for connect each node into the internet we use command like this
+
+* Foosha
+```iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 10.39.0.0/16```
+
+* on each node
+```echo nameserver 192.168.122.1 > /etc/resolv.conf```
 
 ### 2. Luffy wants to contact Franky who is in EniesLobby with denden mushi. You are asked by Luffy to create the main website by accessing franky.yyy.com with the alias www.franky.yyy.com in the kaizoku folder.
 
